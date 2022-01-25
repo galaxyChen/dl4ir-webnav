@@ -1090,10 +1090,10 @@ def train():
     print 'Number of Parameters          :', total_prm
     print 'Number of Learnable Parameters:', learn_prm
 
-    grads = tensor.grad(out[0], wrt=itemlist(tparams_), consider_constant=consider_constant)
+    # grads = tensor.grad(out[0], wrt=itemlist(tparams_), consider_constant=consider_constant)
 
     lr = tensor.scalar(name='lr')
-    f_grad_shared, f_update = optimizer(lr, tparams_, grads, iin, out, updates)
+    # f_grad_shared, f_update = optimizer(lr, tparams_, grads, iin, out, updates)
 
     print 'Optimization'
 
@@ -1133,7 +1133,7 @@ def train():
     uidx = 0  # the number of update done
     estop = False  # early stop
     start_time = time.time()
-    
+
 
     try:
         for eidx in xrange(prm.max_epochs):
@@ -1200,9 +1200,9 @@ def train():
                           ]
 
 
-                cost, R, l_idx, pages_idx, best_doc, best_answer, mask, dist \
-                        = f_grad_shared(q_i, q_m, root_pages, acts_p, uidx, *rvs)
-                f_update(prm.lrate)
+                # cost, R, l_idx, pages_idx, best_doc, best_answer, mask, dist \
+                #         = f_grad_shared(q_i, q_m, root_pages, acts_p, uidx, *rvs)
+                # f_update(prm.lrate)
 
                 if prm.learning.lower() == 'q-learning': 
                     # update weights of the next_q_val network.
@@ -1236,41 +1236,41 @@ def train():
                                 mem.append([q_i[i], q_m[i], l_idx[i], t[i], rR[i]])
                                 mem_r.append(rR[i])
 
-                if np.isnan(cost) or np.isinf(cost):
-                    print 'NaN detected'
-                    return 1., 1., 1.
+                # if np.isnan(cost) or np.isinf(cost):
+                #     print 'NaN detected'
+                #     return 1., 1., 1.
     
                 #if uidx % 100 == 0:
                 #    vis_att(pages_idx[:,-1], queries[-1], alpha[:,-1,:], uidx, options)
 
-                if np.mod(uidx, prm.dispFreq) == 0:
-                    print "\nQuery: " + queries[0].replace("\n"," ")
-       
-                    print 'Supervised Path:',
-                    for i, page_idx in enumerate(acts_p[:-1,0]):
-                        if page_idx != -1:
-                            print '->', options['wiki'].get_article_title(page_idx),
-                    print '-> Stop'
-
-                    print 'Actual Path:    ',
-                    for i, page_idx in enumerate(pages_idx[:-1,0]):
-                        if page_idx != -1:
-                            print '->', options['wiki'].get_article_title(page_idx),
-                    print '-> Stop'
-
-                    print 'Best Document: ' + options['wiki'].get_article_title(best_doc[0])
-                    print 'Best Answer: ' + utils.idx2text(best_answer[0], options['vocabinv'])
-                    print('Epoch '+ str(eidx) + ' Update '+ str(uidx) + ' Cost ' + str(cost) + \
-                               ' Reward Mean ' + str(R.mean()) + ' Reward Max ' + str(R.max()) + \
-                               ' Reward Min ' + str(R.min()) + \
-                               ' Q-Value Max (avg per sample) ' + str(dist.max(2).mean()) + \
-                               ' Q-Value Mean ' + str(dist.mean()))
-
-                    if prm.learning.lower() == 'q-learning':
-                        pr = float(np.asarray(mem_r).sum()) / max(1., float(len(mem_r)))
-                        print 'memory replay size:', len(mem), ' positive reward:', pr
-
-                    print 'Time per Minibatch Update: ' + str(time.time() - st)
+                # if np.mod(uidx, prm.dispFreq) == 0:
+                #     print "\nQuery: " + queries[0].replace("\n"," ")
+                #
+                #     print 'Supervised Path:',
+                #     for i, page_idx in enumerate(acts_p[:-1,0]):
+                #         if page_idx != -1:
+                #             print '->', options['wiki'].get_article_title(page_idx),
+                #     print '-> Stop'
+                #
+                #     print 'Actual Path:    ',
+                #     for i, page_idx in enumerate(pages_idx[:-1,0]):
+                #         if page_idx != -1:
+                #             print '->', options['wiki'].get_article_title(page_idx),
+                #     print '-> Stop'
+                #
+                #     print 'Best Document: ' + options['wiki'].get_article_title(best_doc[0])
+                #     print 'Best Answer: ' + utils.idx2text(best_answer[0], options['vocabinv'])
+                #     print('Epoch '+ str(eidx) + ' Update '+ str(uidx) + ' Cost ' + str(cost) + \
+                #                ' Reward Mean ' + str(R.mean()) + ' Reward Max ' + str(R.max()) + \
+                #                ' Reward Min ' + str(R.min()) + \
+                #                ' Q-Value Max (avg per sample) ' + str(dist.max(2).mean()) + \
+                #                ' Q-Value Mean ' + str(dist.mean()))
+                #
+                #     if prm.learning.lower() == 'q-learning':
+                #         pr = float(np.asarray(mem_r).sum()) / max(1., float(len(mem_r)))
+                #         print 'memory replay size:', len(mem), ' positive reward:', pr
+                #
+                #     print 'Time per Minibatch Update: ' + str(time.time() - st)
                        
 
 
