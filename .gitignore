@@ -135,3 +135,4 @@ temp.py
 runs/
 slurm_logs/
 .DS_Store
+./file_paths.py

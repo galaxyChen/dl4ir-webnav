@@ -38,7 +38,7 @@ dim_proj=2048  # LSTM number of hidden units.
 dim_emb=500  # word embedding dimension.
 patience=1000  # Number of epochs to wait before early stop if no progress.
 max_epochs=5000  # The maximum number of epochs to run.
-dispFreq=10  # Display to stdout the training progress every N updates.
+dispFreq=1  # Display to stdout the training progress every N updates.
 lrate=0.0002  # Learning rate for sgd (not used for adadelta and rmsprop).
 erate=0.1  # multiplier for the entropy regularization. Only used when act_sel='softmax'.
 saveto='model.npz'  # The best model will be saved there.
