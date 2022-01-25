@@ -1390,7 +1390,7 @@ def train():
     return
 
 
-def eval(split="test"):
+def eval(model_path=None, qp_path=None, split="test"):
     options = locals().copy()
 
     print 'parameters:', str(options)
@@ -1419,7 +1419,9 @@ def eval(split="test"):
         options['wikipre'] = wiki_emb.WikiEmb(prm.pages_emb_path)
 
     print 'Loading Dataset...'
-    qpp = qp.QP(prm.qp_path)
+    if qp_path is None:
+        qp_path = prm.qp_path
+    qpp = qp.QP(qp_path)
     q_train, q_valid, q_test = qpp.get_queries()
     a_train, a_valid, a_test = qpp.get_paths()
     c_train, c_valid, c_test = qpp.get_candidates()  # get candidates obtained by the search engine
@@ -1440,7 +1442,9 @@ def eval(split="test"):
         options['W'] = params['W']
 
     if prm.reload_model:
-        load_params(prm.reload_model, params)
+        if model_path is None:
+            model_path = prm.reload_model
+        load_params(model_path, params)
 
     params_next = OrderedDict()
 
