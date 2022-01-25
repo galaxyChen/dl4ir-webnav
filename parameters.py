@@ -1,3 +1,5 @@
+from file_paths import *
+
 ######################
 # Dataset parameters #
 ######################
@@ -11,17 +13,9 @@ max_words_query = 30 # Maximum number of words a query can have.
 n_words = 374000 # words for the vocabulary
 n_consec = 4 # maximum number of consecutive sentences to form a query
 root_page = 'category:main topic classifications'
-vocab_path = '/Users/galaxy/code/wiki-pretrain/data/wiki/D_cbow_pdw_8B.pkl' # Path to the python dictionary containing the vocabulary.
-wordemb_path = '/Users/galaxy/code/wiki-pretrain/data/wiki/D_cbow_pdw_8B.pkl' # Path to the python dictionary containing the word embeddings.
-idf_path = '/Users/galaxy/code/wiki-pretrain/data/wiki/wiki_idf.pkl' # Path to the IDF dictionary.
-pages_path = '/Users/galaxy/code/wiki-pretrain/data/wiki/wiki.hdf5' # Path to save the articles and links.
-pages_emb_path = '/Users/galaxy/code/wiki-pretrain/data/wiki/wiki_emb.hdf5' # Path to save articles embeddings (set to None to not compute it).
-pages_idx_path = '/Users/galaxy/code/wiki-pretrain/data/wiki/wiki_idx.hdf5' # Path to save articles' words as vocabulary indexes (set to None to not compute it).
-qp_path_pre = '/Users/galaxy/code/wiki-pretrain/data/wiki/qp.hdf5' # Path to save queries and paths.
 max_candidates = 40 # maximum number of candidate documents that will be returned by the search engine.
 search_engine = None # search engine to find candidate documents. Valid options are 'simple', 'lucene', 'google', and None.
 create_index = True # If True, create index from wikipedia. If False, use the current one. Only used when search_engine='lucene'.
-index_folder = '/Users/galaxy/code/wiki-pretrain/data/wiki/lucene_index/' # folder to store lucene's index. It will be created in case it does not exist.
 start_from_root = True # If True, start from <root_page>. If False, start from the first page returned by the search engine.
 
 
@@ -29,23 +23,17 @@ start_from_root = True # If True, start from <root_page>. If False, start from t
 # Wikipedia  parameters #
 #########################
 compute_page_pos = True # Compute or not the page positions in the Wikipedia dump file
-dump_path = '/Users/galaxy/code/wiki-pretrain/data/wiki/enwiki-latest-pages-articles.xml' # Path to the wikipedia dump file.
-page_pos_path = '/Users/galaxy/code/wiki-pretrain/data/wiki/page_pos.pkl' # Path to save the dictionary that stores each article position in the wikipedia dump file.
-cat_pages_path = '/Users/galaxy/code/wiki-pretrain/data/wiki/cat_pages.pkl' # Path to save the dictionary that stores the pages in each wikipedia category.
-
 
 
 ###############################
 # Jeopardy dataset parameters #
 ###############################
-jeopardy_path = '/Users/galaxy/code/wiki-pretrain/data/wiki/JEOPARDY.csv' # Path to the csv containing jeopardy questions and answers.
 jeopardy_n_samples = [1e8,10000,10000] # maximum number of samples for the training, validation and test sets.
 
 
 ####################
 # Model parameters #
 ####################
-qp_path = '/Users/galaxy/code/wiki-pretrain/data/wiki/queries_paths_2hops.hdf5' # Path to load queries and paths.
 dim_proj=2048  # LSTM number of hidden units.
 dim_emb=500  # word embedding dimension.
 patience=1000  # Number of epochs to wait before early stop if no progress.
@@ -67,7 +55,6 @@ n_rnn_layers=4 # number of recurrent layers. must be >= 1.
 n_doc_layers_nav=1 # number of layers after the document embedding in the navigation loop. must be >= 1.
 scoring_layers_nav=[100,30] # list containing the number of hidden units in each intermediate scoring layer of the navigation loop. Set to [] if you want only one scoring layer.
 reward_type = None # Possible values are 'continuous', 'discrete', or None (in this case, no reward is computed. Used to speed up computations when learning='supervised'.
-reload_model='/Users/galaxy/code/wiki-pretrain/data/wiki/model_wikinav-16-4.npz'  # Path to a saved model we want to start from.
 #reload_model=False  # Path to a saved model we want to start from.
 idb=False # use input-dependent baseline. Only used when learning='reinforce'.
 mov_avg=False # use moving average baseline. Only used when learning='reinforce'.
@@ -101,8 +88,6 @@ epsilon_decay = 1 # Number of steps/updates to minimum epsilon. Only used when l
 discount = 0.99 # Discount factor. Only used when learning='q-learning'.
 clip = 1.0 # clip the cost at the this value. Only used when > 0 and learning='reinforce' or 'q-learning'.
 aug = 1 # Augmentation on training dataset.
-path_thes_idx = "/Users/galaxy/code/wiki-pretrain/data/wiki/th_en_US_new.idx" # Thesaurus
-path_thes_dat = "/Users/galaxy/code/wiki-pretrain/data/wiki/th_en_US_new.dat" # Thesaurus
 load_emb_mem = False # If true, load the entire hdf5 file specified at <pages_emb_path> onto memory. This speeds up the code but the memory must be at least the size of the hdf5 file.
 compute_emb = False # If True, compute word embeddings on the fly. If False, use precomputed word embeddings from <pages_emb_path>.
 weight_decay = 0.0 # weight decay multiplication factor.
